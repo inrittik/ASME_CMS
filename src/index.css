@@ -1,0 +1,39 @@
+@import url('https://fonts.cdnfonts.com/css/axiforma');
+html,
+body,
+#root,
+.main,
+.content {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  font-family: "Axiforma", sans-serif;
+  background-color: rgb(0,30,60);
+}
+
+.main {
+  display: flex;
+  position: relative;
+}
+.list{
+  max-height: 90vh;
+  overflow-y: auto;
+}
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e0e0e0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

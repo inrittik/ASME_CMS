@@ -1,20 +1,16 @@
-'use strict';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import "./index.css";
 
-module.exports = {
-  /**
-   * An asynchronous register function that runs before
-   * your application is initialized.
-   *
-   * This gives you an opportunity to extend code.
-   */
-  register(/*{ strapi }*/) {},
+import App from "./App";
 
-  /**
-   * An asynchronous bootstrap function that runs before
-   * your application gets started.
-   *
-   * This gives you an opportunity to set up your data model,
-   * run jobs, or perform some special logic.
-   */
-  bootstrap(/*{ strapi }*/) {},
-};
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>
+);
