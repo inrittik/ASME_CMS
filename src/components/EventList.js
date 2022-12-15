@@ -1,8 +1,8 @@
 import { Box, IconButton, Typography } from "@mui/material";
 import React from "react";
 import EventItm from "./EventItm";
-import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EventForm from "./EventForm";
 
 const EventList = () => {
   return (
@@ -13,10 +13,7 @@ const EventList = () => {
         alignItems="center"
         style={{ margin: "3px" }}
       >
-        <IconButton>
-          <AddIcon style={{ color: "white", margin: "0 5px" }} />
-          <Typography style={{ color: "white" }}>Create</Typography>
-        </IconButton>
+        <EventForm />
         <IconButton>
           <DeleteIcon style={{ color: "white", margin: "0 5px" }} />
           <Typography style={{ color: "white" }}>Delete</Typography>
