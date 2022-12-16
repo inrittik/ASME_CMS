@@ -2,8 +2,9 @@ import React from "react";
 import { Paper, IconButton, Box } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import StudentView from "./StudentView";
+import { deleteStudentById } from "../utils/studentServices";
 
-const StudentItm = () => {
+const StudentItm = (props) => {
   const itmstyle = {
     margin: "20px auto",
     padding: "20px 10px",
@@ -13,16 +14,22 @@ const StudentItm = () => {
     alignItems: "center",
     fontWeight: 600,
   };
+
+  const handleDelete = async() => {
+    await deleteStudentById(props._id);
+  }
   return (
     <Paper style={itmstyle}>
       <Box display="flex" alignItems="center" justifyContent="space-between">
-        <Box>Scholar Id</Box>
+        <Box>{props.scholarId}</Box>
       </Box>
-      <Box>Student Name</Box>
+      <Box>
+        {props.firstName} {props.lastName}
+      </Box>
       <Box display="flex">
-        <StudentView />
+        <StudentView {...props} />
         <IconButton sx={{ margin: "0px 5px" }}>
-          <DeleteIcon />
+          <DeleteIcon onClick={ handleDelete} />
         </IconButton>
       </Box>
     </Paper>

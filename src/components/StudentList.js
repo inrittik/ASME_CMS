@@ -1,78 +1,84 @@
-import { Box, Popover, Button, Typography } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
 import React, { useEffect, useState } from "react";
 import StudentItm from "./StudentItm";
+import { ExpandMore } from "@mui/icons-material";
+import { getAllEvents } from "../utils/eventServices";
+import { getAllStudentsByEvent } from "../utils/studentServices";
 
-const StudentList = ({ events, students }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [filter, setFilter] = useState("");
-  const [studentArray, setStudentArray] = useState(students);
+const StudentList = () => {
+  const [filter, setFilter] = useState("Select Event");
+  const [studentArray, setStudentArray] = useState([]);
+
+  const [events, setEvents] = React.useState([]);
+  useEffect(() => {
+    async function fetchAllEvents() {
+      const response = await getAllEvents();
+      const data = response.data;
+      setEvents(data.events);
+    }
+    fetchAllEvents();
+  }, []);
 
   useEffect(() => {
-    // if (filter.length>0) {
-    //   const filteredStudents = studentArray.filter((student) => {
-    //     return student.event === filter;
-    //   });
-    //   setStudentArray(filteredStudents);
-    // }
-  }, [filter, studentArray]);
+    async function fetchStudentsByEvent() {
+      const _id = events.find((event) => event.eventName === filter)._id;
+      const response = await getAllStudentsByEvent(_id);
+      const data = response.data;
+      console.log(data);
+      setStudentArray(data.student);
+    }
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+    if (filter !== "Select Event") fetchStudentsByEvent();
+  }, [filter, events]);
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleFilterClick = (e) => {
+  const handleFilter = (e) => {
     setFilter(e.target.innerText);
-    handleClose();
-    console.log(filter);
   };
-
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popover" : undefined;
   return (
     <div className="list">
       <Box style={{ margin: "1rem" }}>
-        <Button aria-describedby={id} variant="contained" onClick={handleClick}>
-          Filter
-        </Button>
-        <Popover
-          id={id}
-          open={open}
-          anchorEl={anchorEl}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
-          }}
+        <Accordion
+          sx={{ backgroundColor: "#b8e7ff", color: "#1976d2", fontWeight: 600 }}
         >
-          <Typography
-            sx={{ p: 2, cursor: "pointer" }}
-            onClick={handleFilterClick}
+          <AccordionSummary
+            expandIcon={<ExpandMore />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
           >
-            All
-          </Typography>
-          <Typography
-            sx={{ p: 2, cursor: "pointer" }}
-            onClick={handleFilterClick}
-          >
-            Event 1
-          </Typography>
-          <Typography
-            sx={{ p: 2, cursor: "pointer" }}
-            onClick={handleFilterClick}
-          >
-            Event 2
-          </Typography>
-        </Popover>
+            <Typography>{filter}</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Stack>
+              {events.map((event) => {
+                return (
+                  <div
+                    style={{
+                      padding: "1rem 0",
+                      fontSize: "1.1rem",
+                      cursor: "pointer",
+                    }}
+                    onClick={handleFilter}
+                  >
+                    {event.eventName}
+                  </div>
+                );
+              })}
+            </Stack>
+          </AccordionDetails>
+        </Accordion>
       </Box>
       <Box style={{ margin: "3px" }}>
-        <StudentItm />
-        <StudentItm />
-        <StudentItm />
-        <StudentItm />
+        {studentArray &&
+          studentArray.map((student) => {
+            return <StudentItm {...student} />;
+          })}
       </Box>
     </div>
   );

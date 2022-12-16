@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Box, IconButton, Typography, Modal, Stack } from "@mui/material";
 import PreviewIcon from "@mui/icons-material/Preview";
+import dayjs from "dayjs";
 
 const style = {
   position: "absolute",
@@ -14,7 +15,7 @@ const style = {
   p: 4,
 };
 
-const StudentView = () => {
+const StudentView = (props) => {
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -32,14 +33,20 @@ const StudentView = () => {
         keepMounted
       >
         <Box sx={style}>
-          <h2>Student Name</h2>
+          <h2>
+            {props.firstName} {props.lastName}
+          </h2>
           <Stack>
             <Box>
               <Typography sx={{ margin: "2rem 0" }}>
-                Scholar Id
+                {props.scholarId}
               </Typography>
-              <Typography sx={{ margin: "2rem 0" }}>Start Date</Typography>
-              <Typography sx={{ margin: "2rem 0" }}>End Date</Typography>
+              <Typography sx={{ margin: "2rem 0" }}>
+                {dayjs(props.startDate).format("LLLL")}
+              </Typography>
+              <Typography sx={{ margin: "2rem 0" }}>
+                {dayjs(props.endDate).format("LLLL")}
+              </Typography>
             </Box>
           </Stack>
         </Box>

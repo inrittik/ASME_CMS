@@ -44,8 +44,8 @@ export const updateStudentById = async (id, student) => {
   return resp;
 }
 
-export const getAllStudentsByEvent = async (event) => {
-  const url = `${BASE_URL}/api/students/${event}`;
+export const getAllStudentsByEvent = async (_id) => {
+  const url = `${BASE_URL}/api/students/${_id}`;
   let resp;
 
   try {
