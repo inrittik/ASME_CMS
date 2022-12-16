@@ -1,19 +1,19 @@
 import React from "react";
-import FormList from "../components/FormList";
+import StudentList from "../components/StudentList";
 import SidebarMenu from "../components/SidebarMenu";
 import Topbar from "../components/Topbar";
 
-const Forms = () => {
+const Students = () => {
   return (
     <div className="main">
       <SidebarMenu />
       <div className="content">
         <Topbar />
 
-        <FormList />
+        <StudentList />
       </div>
     </div>
   );
 };
 
-export default Forms;
+export default Students;

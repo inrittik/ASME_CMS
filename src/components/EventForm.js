@@ -13,7 +13,9 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
 import FormField from "./FormField";
+import { createEvent, updateEvent } from "../utils/eventServices";
 
 const style = {
   position: "absolute",
@@ -27,8 +29,10 @@ const style = {
   p: 4,
 };
 
-export default function BasicModal() {
+export default function BasicModal({isEditable, _id = null}) {
   const [open, setOpen] = React.useState(false);
+  const [eventName, setEventName] = React.useState("");
+  const [description, setDescription] = React.useState("");
   const [startDate, setStartDate] = React.useState(dayjs());
   const [endDate, setEndDate] = React.useState(dayjs());
   const [firstNameIsRequired, setFirstNameIsRequired] = React.useState(false);
@@ -52,6 +56,12 @@ export default function BasicModal() {
   const handleEndChange = (newValue) => {
     setEndDate(newValue);
   };
+  const handleEventNameChange = (e) => { 
+    setEventName(e.target.value);
+  }
+  const handleDescriptionChange = (e) => { 
+    setDescription(e.target.value);
+  }
 
   const fields = [
     {
@@ -98,11 +108,143 @@ export default function BasicModal() {
     },
   ];
 
+  const handleSubmit = async () => {
+    const myForm = new FormData();
+    myForm.set("eventName", eventName);
+    myForm.set("description", description);
+    myForm.set("startDate", startDate);
+    myForm.set("endDate", endDate);
+    myForm.append(
+      "firstName",
+      JSON.stringify({
+        isRequired: firstNameIsRequired,
+        isVisible: firstNameIsVisible,
+      })
+    );
+    myForm.append(
+      "lastName",
+      JSON.stringify({
+        isRequired: lastNameIsRequired,
+        isVisible: lastNameIsVisible,
+      })
+    );
+    myForm.append(
+      "email",
+      JSON.stringify({
+        isRequired: emailIsRequired,
+        isVisible: emailIsVisible,
+      })
+    );
+    myForm.append(
+      "scholarId",
+      JSON.stringify({
+        isRequired: scholarIdIsRequired,
+        isVisible: scholarIdIsVisible,
+      })
+    );
+    myForm.append(
+      "address",
+      JSON.stringify({
+        isRequired: addressIsRequired,
+        isVisible: addressIsVisible,
+      })
+    );
+    myForm.append(
+      "payment",
+      JSON.stringify({
+        isRequired: paymentIsRequired,
+        isVisible: paymentIsVisible,
+      })
+    )
+    
+    await createEvent(myForm);
+    resetForm();
+    handleClose();
+  }
+
+  const handleEdit = async () => { 
+    const myForm = new FormData();
+    myForm.set("eventName", eventName);
+    myForm.set("description", description);
+    myForm.set("startDate", startDate);
+    myForm.set("endDate", endDate);
+    myForm.append(
+      "firstName",
+      JSON.stringify({
+        isRequired: firstNameIsRequired,
+        isVisible: firstNameIsVisible,
+      })
+    );
+    myForm.append(
+      "lastName",
+      JSON.stringify({
+        isRequired: lastNameIsRequired,
+        isVisible: lastNameIsVisible,
+      })
+    );
+    myForm.append(
+      "email",
+      JSON.stringify({
+        isRequired: emailIsRequired,
+        isVisible: emailIsVisible,
+      })
+    );
+    myForm.append(
+      "scholarId",
+      JSON.stringify({
+        isRequired: scholarIdIsRequired,
+        isVisible: scholarIdIsVisible,
+      })
+    );
+    myForm.append(
+      "address",
+      JSON.stringify({
+        isRequired: addressIsRequired,
+        isVisible: addressIsVisible,
+      })
+    );
+    myForm.append(
+      "payment",
+      JSON.stringify({
+        isRequired: paymentIsRequired,
+        isVisible: paymentIsVisible,
+      })
+    );
+
+    let res = await updateEvent(_id, myForm);
+    console.log(res);
+    resetForm();
+    handleClose();
+  }
+
+  const resetForm = () => {
+    setEventName("");
+    setDescription("");
+    setStartDate(dayjs());
+    setEndDate(dayjs());
+    setFirstNameIsRequired(false);
+    setFirstNameIsVisible(false);
+    setLastNameIsRequired(false);
+    setLastNameIsVisible(false);
+    setEmailIsRequired(false);
+    setEmailIsVisible(false);
+    setScholarIdIsRequired(false);
+    setScholarIdIsVisible(false);
+    setAddressIsRequired(false);
+    setAddressIsVisible(false);
+    setPaymentIsRequired(false);
+    setPaymentIsVisible(false);
+  }
   return (
     <div>
       <IconButton onClick={handleOpen}>
-        <AddIcon style={{ color: "white", margin: "0 5px" }} />
-        <Typography style={{ color: "white" }}>Create</Typography>
+        {!isEditable && (
+          <>
+            <AddIcon style={{ color: "white", margin: "0 5px" }} />
+            <Typography style={{ color: "white" }}>Create</Typography>
+          </>
+        )}
+        {isEditable && <EditIcon />}
       </IconButton>
       <Modal
         open={open}
@@ -116,14 +258,16 @@ export default function BasicModal() {
           <Stack>
             <Box>
               <TextField
-                id="eventName"
+                value={eventName}
+                onChange={handleEventNameChange}
                 label="Event-Name"
                 variant="standard"
                 style={{ margin: "0 2rem" }}
                 required
               />
               <TextField
-                id="description"
+                value={description}
+                onChange={handleDescriptionChange}
                 label="Event-Description"
                 variant="standard"
                 style={{ margin: "0 2rem" }}
@@ -165,10 +309,26 @@ export default function BasicModal() {
             })}
           </Stack>
           <Box sx={{ width: "20%", margin: "3rem auto" }}>
-            <Button sx={{ padding: "1rem", margin: "0 1rem" }}>
-              <Typography>Submit</Typography>
-            </Button>
-            <Button sx={{ padding: "1rem", margin: "0 1rem" }}>
+            {!isEditable && (
+              <Button
+                sx={{ padding: "1rem", margin: "0 1rem" }}
+                onClick={handleSubmit}
+              >
+                <Typography>Submit</Typography>
+              </Button>
+            )}
+            {isEditable && (
+              <Button
+                sx={{ padding: "1rem", margin: "0 1rem" }}
+                onClick={handleEdit}
+              >
+                <Typography>Edit</Typography>
+              </Button>
+            )}
+            <Button
+              sx={{ padding: "1rem", margin: "0 1rem" }}
+              onClick={resetForm}
+            >
               <Typography>Clear</Typography>
             </Button>
           </Box>

@@ -1,10 +1,9 @@
 import React from "react";
-import { Paper, IconButton, Box, Checkbox } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
+import { Paper, IconButton, Box } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import PreviewIcon from "@mui/icons-material/Preview";
+import StudentView from "./StudentView";
 
-const FormItm = () => {
+const StudentItm = () => {
   const itmstyle = {
     margin: "20px auto",
     padding: "20px 10px",
@@ -17,17 +16,11 @@ const FormItm = () => {
   return (
     <Paper style={itmstyle}>
       <Box display="flex" alignItems="center" justifyContent="space-between">
-        <Checkbox />
-        <Box>Event Id</Box>
+        <Box>Scholar Id</Box>
       </Box>
-      <Box>Event Name</Box>
+      <Box>Student Name</Box>
       <Box display="flex">
-        <IconButton sx={{ margin: "0px 5px" }}>
-          <PreviewIcon />
-        </IconButton>
-        <IconButton sx={{ margin: "0px 5px" }}>
-          <EditIcon />
-        </IconButton>
+        <StudentView />
         <IconButton sx={{ margin: "0px 5px" }}>
           <DeleteIcon />
         </IconButton>
@@ -36,4 +29,4 @@ const FormItm = () => {
   );
 };
 
-export default FormItm;
+export default StudentItm;

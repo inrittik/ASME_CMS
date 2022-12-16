@@ -1,10 +1,12 @@
 import React from "react";
-import { Paper, IconButton, Box, Checkbox } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
+import { Paper, IconButton, Box } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
-import PreviewIcon from "@mui/icons-material/Preview";
+import EventView from "./EventView";
+import EventForm from "./EventForm";
+import dayjs from "dayjs";
+import { deleteEvent } from "../utils/eventServices";
 
-const EventItm = () => {
+const EventItm = (props) => {
   const itmstyle = {
     margin: "20px auto",
     padding: "20px 10px",
@@ -14,22 +16,20 @@ const EventItm = () => {
     alignItems: "center",
     fontWeight: 600,
   };
+  const handleDelete = async () => { 
+    await deleteEvent(props._id);
+  }
   return (
     <Paper style={itmstyle}>
       <Box display="flex" alignItems="center" justifyContent="space-between">
-        <Checkbox />
-        <Box>Event Name</Box>
+        <Box>Event Name: {props.eventName}</Box>
       </Box>
-      <Box>Event Description</Box>
-      <Box>Event Date</Box>
+      <Box>StartDate: {dayjs(props.startDate).format("DD/MM/YYYY")}</Box>
+      <Box>EndDate: {dayjs(props.endDate).format("DD/MM/YYYY")}</Box>
       <Box display="flex">
-        <IconButton sx={{ margin: "0px 5px" }}>
-          <PreviewIcon />
-        </IconButton>
-        <IconButton sx={{ margin: "0px 5px" }}>
-          <EditIcon />
-        </IconButton>
-        <IconButton sx={{ margin: "0px 5px" }}>
+        <EventView {...props} />
+        <EventForm isEditable={true} _id={props._id} />
+        <IconButton sx={{ margin: "0px 5px" }} onClick={handleDelete}>
           <DeleteIcon />
         </IconButton>
       </Box>

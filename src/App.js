@@ -1,20 +1,19 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
+import { Route, Routes, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import './App.css'
 import { ProSidebarProvider } from "react-pro-sidebar";
 import Events from "./pages/Events";
-import Forms from "./pages/Forms";
+import Students from "./pages/Students";
 
 function App() {
   return (
     <ProSidebarProvider>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/events" element={<Events />} />
-        <Route path="/forms" element={<Forms />} />
+        <Route path="/students" element={<Students />} />
       </Routes>
     </ProSidebarProvider>
   );

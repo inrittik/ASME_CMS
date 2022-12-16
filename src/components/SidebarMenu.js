@@ -22,8 +22,8 @@ const SidebarMenu = () => {
             <MenuItem routerLink={<Link to="/events" />}>
               <Typography>Events</Typography>
             </MenuItem>
-            <MenuItem routerLink={<Link to="/forms" />}>
-              <Typography>Forms</Typography>
+            <MenuItem routerLink={<Link to="/students" />}>
+              <Typography>Students</Typography>
             </MenuItem>
           </Menu>
         </Box>

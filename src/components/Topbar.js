@@ -1,6 +1,6 @@
 import { Box, IconButton } from "@mui/material";
 import React from "react";
-import { PersonOutlined, SettingsOutlined } from "@mui/icons-material";
+import { PersonOutlined } from "@mui/icons-material";
 
 const Topbar = () => {
   return (
@@ -14,9 +14,6 @@ const Topbar = () => {
       <Box display="flex">
         <IconButton sx={{ margin: "0px 5px" }}>
           <PersonOutlined />
-        </IconButton>
-        <IconButton sx={{ margin: "0px 5px" }}>
-          <SettingsOutlined />
         </IconButton>
       </Box>
     </Box>
