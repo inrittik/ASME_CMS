@@ -2,17 +2,20 @@ import React from "react";
 import EventList from "../components/EventList";
 import SidebarMenu from "../components/SidebarMenu";
 import Topbar from "../components/Topbar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Events = () => {
   return (
     <div className="main">
-      <SidebarMenu />
-      <div className="content">
-        <Topbar />
+        <ToastContainer />
+        <SidebarMenu />
+        <div className="content">
+          <Topbar />
 
-        <EventList />
+          <EventList />
+        </div>
       </div>
-    </div>
   );
 };
 

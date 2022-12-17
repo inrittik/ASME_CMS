@@ -31,12 +31,11 @@ const StudentList = () => {
       const _id = events.find((event) => event.eventName === filter)._id;
       const response = await getAllStudentsByEvent(_id);
       const data = response.data;
-      console.log(data);
       setStudentArray(data.student);
     }
 
     if (filter !== "Select Event") fetchStudentsByEvent();
-  }, [filter, events]);
+  }, [filter, events, studentArray]);
 
   const handleFilter = (e) => {
     setFilter(e.target.innerText);

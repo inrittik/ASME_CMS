@@ -35,6 +35,7 @@ export default function BasicModal({isEditable, _id = null}) {
   const [description, setDescription] = React.useState("");
   const [startDate, setStartDate] = React.useState(dayjs());
   const [endDate, setEndDate] = React.useState(dayjs());
+  const [images, setImages] = React.useState([]);
   const [firstNameIsRequired, setFirstNameIsRequired] = React.useState(false);
   const [firstNameIsVisible, setFirstNameIsVisible] = React.useState(false);
   const [lastNameIsRequired, setLastNameIsRequired] = React.useState(false);
@@ -108,12 +109,31 @@ export default function BasicModal({isEditable, _id = null}) {
     },
   ];
 
+  const registerDataChange = (e) => {
+    const files = Array.from(e.target.files);
+    setImages([]);
+    files.forEach((file) => {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImages((old) => [...old, reader.result]);
+        }
+      };
+
+      reader.readAsDataURL(file);
+    });
+  };
+
   const handleSubmit = async () => {
     const myForm = new FormData();
     myForm.set("eventName", eventName);
     myForm.set("description", description);
     myForm.set("startDate", startDate);
     myForm.set("endDate", endDate);
+    images.forEach((image) => {
+      myForm.append("images", image);
+    });
     myForm.append(
       "firstName",
       JSON.stringify({
@@ -157,7 +177,8 @@ export default function BasicModal({isEditable, _id = null}) {
       })
     )
     
-    await createEvent(myForm);
+    let res = await createEvent(myForm);
+    console.log(res);
     resetForm();
     handleClose();
   }
@@ -168,6 +189,9 @@ export default function BasicModal({isEditable, _id = null}) {
     myForm.set("description", description);
     myForm.set("startDate", startDate);
     myForm.set("endDate", endDate);
+    images.forEach((image) => {
+      myForm.append("images", image);
+    });
     myForm.append(
       "firstName",
       JSON.stringify({
@@ -293,6 +317,16 @@ export default function BasicModal({isEditable, _id = null}) {
               </LocalizationProvider>
             </Box>
           </Stack>
+          <div style={{ margin: "2rem" }}>
+            <label htmlFor="images">Images</label>
+            <input
+              type="file"
+              name="images"
+              multiple
+              accept="image/*"
+              onChange={registerDataChange}
+            />
+          </div>
           <h3 style={{ margin: "3rem 0" }}>Fields* for the Event</h3>
           <Stack>
             {fields.map((field, index) => {

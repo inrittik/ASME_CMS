@@ -1,11 +1,5 @@
 import * as React from "react";
-import {
-  Box,
-  IconButton,
-  Typography,
-  Modal,
-  Stack,
-} from "@mui/material";
+import { Box, IconButton, Typography, Modal, Stack } from "@mui/material";
 import PreviewIcon from "@mui/icons-material/Preview";
 import dayjs from "dayjs";
 
@@ -84,6 +78,21 @@ export default function BasicModal(props) {
               <Typography sx={{ margin: "2rem 0" }}>
                 {dayjs(props.endDate).format("LLLL")}
               </Typography>
+              <div>
+                {props.images.map((image) => {
+                  return (
+                    <img
+                      src={image.url}
+                      style={{
+                        width: "200px",
+                        height: "200px",
+                        objectFit: "contain",
+                      }}
+                      alt={image.url}
+                    />
+                  );
+                })}
+              </div>
             </Box>
           </Stack>
           <h3 style={{ margin: "1rem 0" }}>Fields* for the Event</h3>
@@ -110,10 +119,10 @@ export default function BasicModal(props) {
                       <Typography sx={{ margin: "1rem 0" }}>
                         {field.label}
                       </Typography>
-                      <Typography sx={{ margin: "1rem 0" }}>
+                      <Typography sx={{ margin: "1rem 0", color:`${field.isVisible?'green':'red'}` }}>
                         isVisible: {field.isVisible ? "True" : "False"}
                       </Typography>
-                      <Typography sx={{ margin: "1rem 0" }}>
+                      <Typography sx={{ margin: "1rem 0", color:`${field.isVisible?'green':'red'}` }}>
                         isRequired: {field.isRequired ? "True" : "False"}
                       </Typography>
                     </div>
